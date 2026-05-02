@@ -117,21 +117,20 @@ static std::string apply_chat_template(
     return std::string(buf.data(), len);
 }
 
-JNIEXPORT jint JNICALL
-Java_gpt_in_your_hand_nativ_LlamaJNI_nativeInfer(
-    JNIEnv* env, jobject /* thiz */,
-    jlong handle_jl,
+// 토큰화 후 디코드·샘플 루프. apply_template이 false면 prompt를 그대로 사용.
+static jint run_inference(
+    JNIEnv* env,
+    LlamaHandle* h,
     jstring prompt_jstr,
     jint max_tokens,
-    jobject callback) {
+    jobject callback,
+    bool apply_template) {
 
-    auto* h = reinterpret_cast<LlamaHandle*>(handle_jl);
     if (h == nullptr || h->ctx == nullptr) {
         throwJavaException(env, "유효하지 않은 핸들");
         return 0;
     }
 
-    // 콜백 메서드 ID
     jclass cb_cls = env->GetObjectClass(callback);
     jmethodID mid_on_token = env->GetMethodID(
         cb_cls, "onToken", "(Ljava/lang/String;)V");
@@ -140,9 +139,10 @@ Java_gpt_in_your_hand_nativ_LlamaJNI_nativeInfer(
         return 0;
     }
 
-    // 프롬프트 → 채팅 템플릿 적용 → 토큰화
     const char* prompt_cstr = env->GetStringUTFChars(prompt_jstr, nullptr);
-    std::string formatted = apply_chat_template(h->model, prompt_cstr);
+    std::string formatted = apply_template
+        ? apply_chat_template(h->model, prompt_cstr)
+        : std::string(prompt_cstr);
     env->ReleaseStringUTFChars(prompt_jstr, prompt_cstr);
 
     int32_t n_prompt = -llama_tokenize(
@@ -198,6 +198,28 @@ Java_gpt_in_your_hand_nativ_LlamaJNI_nativeInfer(
     }
 
     return n_generated;
+}
+
+JNIEXPORT jint JNICALL
+Java_gpt_in_your_hand_nativ_LlamaJNI_nativeInfer(
+    JNIEnv* env, jobject /* thiz */,
+    jlong handle_jl,
+    jstring prompt_jstr,
+    jint max_tokens,
+    jobject callback) {
+    auto* h = reinterpret_cast<LlamaHandle*>(handle_jl);
+    return run_inference(env, h, prompt_jstr, max_tokens, callback, /*apply_template=*/true);
+}
+
+JNIEXPORT jint JNICALL
+Java_gpt_in_your_hand_nativ_LlamaJNI_nativeInferFormatted(
+    JNIEnv* env, jobject /* thiz */,
+    jlong handle_jl,
+    jstring prompt_jstr,
+    jint max_tokens,
+    jobject callback) {
+    auto* h = reinterpret_cast<LlamaHandle*>(handle_jl);
+    return run_inference(env, h, prompt_jstr, max_tokens, callback, /*apply_template=*/false);
 }
 
 }  // extern "C"

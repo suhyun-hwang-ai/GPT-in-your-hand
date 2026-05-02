@@ -36,4 +36,27 @@ class InferenceEngine(private val jni: LlamaJNI) {
 
         awaitClose { job.cancel() }
     }.flowOn(Dispatchers.IO)
+
+    /**
+     * 책 17장 멀티턴 — 호출자가 ChatTemplate으로 만든 raw 프롬프트를 그대로 전달한다.
+     */
+    fun streamFormatted(
+        formattedPrompt: String,
+        maxTokens: Int = 256,
+        @Suppress("unused") config: SamplingConfig = SamplingConfig(),
+    ): Flow<String> = callbackFlow {
+        val callback = LlamaJNI.TokenCallback { piece ->
+            trySend(piece)
+        }
+
+        val job = launch(Dispatchers.IO) {
+            try {
+                jni.inferFormatted(formattedPrompt, maxTokens, callback)
+            } finally {
+                close()
+            }
+        }
+
+        awaitClose { job.cancel() }
+    }.flowOn(Dispatchers.IO)
 }

@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "note": "메이저 아르카나 22장 + 마이너 아르카나 56장. 각 카드 키워드는 책 19장에서 다듬는다.",
+  "cards": [
+    {"id": "0", "name_kr": "바보", "name_en": "The Fool", "arcana": "major", "keywords": ["시작", "순수", "도약"]},
+    {"id": "I", "name_kr": "마법사", "name_en": "The Magician", "arcana": "major", "keywords": ["주도성", "창의", "집중"]},
+    {"id": "II", "name_kr": "여사제", "name_en": "The High Priestess", "arcana": "major", "keywords": ["직관", "내면", "비밀"]},
+    {"id": "III", "name_kr": "여황제", "name_en": "The Empress", "arcana": "major", "keywords": ["풍요", "양육", "조화"]},
+    {"id": "IV", "name_kr": "황제", "name_en": "The Emperor", "arcana": "major", "keywords": ["권위", "안정", "구조"]},
+    {"id": "V", "name_kr": "교황", "name_en": "The Hierophant", "arcana": "major", "keywords": ["전통", "가르침", "신뢰"]},
+    {"id": "VI", "name_kr": "연인", "name_en": "The Lovers", "arcana": "major", "keywords": ["선택", "조화", "관계"]},
+    {"id": "VII", "name_kr": "전차", "name_en": "The Chariot", "arcana": "major", "keywords": ["의지", "추진", "통제"]},
+    {"id": "VIII", "name_kr": "힘", "name_en": "Strength", "arcana": "major", "keywords": ["용기", "인내", "절제"]},
+    {"id": "IX", "name_kr": "은둔자", "name_en": "The Hermit", "arcana": "major", "keywords": ["성찰", "고독", "탐구"]},
+    {"id": "X", "name_kr": "운명의 수레바퀴", "name_en": "Wheel of Fortune", "arcana": "major", "keywords": ["전환", "운", "주기"]},
+    {"id": "XI", "name_kr": "정의", "name_en": "Justice", "arcana": "major", "keywords": ["균형", "공정", "결정"]},
+    {"id": "XII", "name_kr": "매달린 사람", "name_en": "The Hanged Man", "arcana": "major", "keywords": ["관점 전환", "기다림", "희생"]},
+    {"id": "XIII", "name_kr": "죽음", "name_en": "Death", "arcana": "major", "keywords": ["변화", "마무리", "재시작"]},
+    {"id": "XIV", "name_kr": "절제", "name_en": "Temperance", "arcana": "major", "keywords": ["조율", "인내", "통합"]},
+    {"id": "XV", "name_kr": "악마", "name_en": "The Devil", "arcana": "major", "keywords": ["속박", "유혹", "집착"]},
+    {"id": "XVI", "name_kr": "탑", "name_en": "The Tower", "arcana": "major", "keywords": ["붕괴", "충격", "각성"]},
+    {"id": "XVII", "name_kr": "별", "name_en": "The Star", "arcana": "major", "keywords": ["희망", "치유", "영감"]},
+    {"id": "XVIII", "name_kr": "달", "name_en": "The Moon", "arcana": "major", "keywords": ["불안", "환상", "직관"]},
+    {"id": "XIX", "name_kr": "태양", "name_en": "The Sun", "arcana": "major", "keywords": ["기쁨", "성공", "활력"]},
+    {"id": "XX", "name_kr": "심판", "name_en": "Judgement", "arcana": "major", "keywords": ["부름", "재평가", "성찰"]},
+    {"id": "XXI", "name_kr": "세계", "name_en": "The World", "arcana": "major", "keywords": ["완성", "통합", "성취"]}
+  ]
+}

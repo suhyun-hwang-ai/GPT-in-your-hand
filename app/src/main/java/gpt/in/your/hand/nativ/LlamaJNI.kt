@@ -21,13 +21,23 @@ class LlamaJNI : AutoCloseable {
     }
 
     /**
-     * 동기 추론. 토큰이 생성될 때마다 [callback]이 호출된다.
+     * 동기 추론. 단일 user 메시지를 받아 모델 내장 chat template을 적용한 뒤 추론한다.
+     * 토큰이 생성될 때마다 [callback]이 호출된다.
      *
      * @return 생성된 토큰 수
      */
     fun infer(prompt: String, maxTokens: Int = 256, callback: TokenCallback): Int {
         check(handle != 0L) { "모델이 로드되지 않았습니다" }
         return nativeInfer(handle, prompt, maxTokens, callback)
+    }
+
+    /**
+     * 동기 추론. 호출자가 이미 chat template을 적용한 raw 프롬프트를 전달한다.
+     * 멀티턴 시 사용 (책 17장).
+     */
+    fun inferFormatted(formattedPrompt: String, maxTokens: Int = 256, callback: TokenCallback): Int {
+        check(handle != 0L) { "모델이 로드되지 않았습니다" }
+        return nativeInferFormatted(handle, formattedPrompt, maxTokens, callback)
     }
 
     override fun close() {
@@ -40,6 +50,13 @@ class LlamaJNI : AutoCloseable {
     private external fun nativeLoadModel(path: String): Long
     private external fun nativeFreeModel(handle: Long)
     private external fun nativeInfer(
+        handle: Long,
+        prompt: String,
+        maxTokens: Int,
+        callback: TokenCallback,
+    ): Int
+
+    private external fun nativeInferFormatted(
         handle: Long,
         prompt: String,
         maxTokens: Int,
